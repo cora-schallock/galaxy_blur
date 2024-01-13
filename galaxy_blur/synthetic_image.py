@@ -126,7 +126,7 @@ class SDSS_image:
             sky_sig=None,
             verbose=False,
             fix_seed=True,
-        bg_tag=None,
+            bg_tag=None,
             bb_label='broadband_',
             psf_fits=None,
             psf_pixsize_arcsec=None,
@@ -198,7 +198,7 @@ class SDSS_image:
                 #outputfitsfile = '/extra/wayne0/preserve/rae_peng/fits/'+ filename[35:-5]+'_psf_'+ psf_fwhm_arcsec + 'background_' + sn_limit +'.fits'
                 print(filename)
                 #outputfitsfile = '/mnt/c/Users/school/Desktop/rae_output' + filename.split("/")[-1].split(".")[0] + psf_fwhm_arcsec + 'background_' + sn_limit +'.fits'
-                outputfitsfile = filename.split(".")[0] + '\\temp\\'+  '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit) + '_normed'+'.fits'
+                outputfitsfile = filename.split(".")[0] + '\\temp\\'+  '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit)+'.fits'
             else:
                 # print 'here'
                 # print filename
@@ -207,7 +207,7 @@ class SDSS_image:
                 # outputfitsfile = 'D:/cs179/python/output/winter/fits/'+ filename[44:-5]+'_band_'+str(self.band)+'_camera_'+str(camera)+'_redshift_'+str(float(self.cosmology.redshift))+'.fits'
                 #outputfitsfile = '/extra/wayne0/preserve/rae_peng/fits/'+ filename+ '/' + filename +'_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit) + 'pixelsize_' + str(pixelsize_arcsec) + '.fits'
                 #outputfitsfile = '/mnt/c/Users/school/Desktop/rae_output' + '/' + filename.split("/")[-1].split(".")[0] +'_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit) + 'pixelsize_' + str(pixelsize_arcsec) + '.fits'
-                outputfitsfile = filename.split(".")[0] + '\\temp\\' + '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit) + '_normed'+'.fits'
+                outputfitsfile = filename.split(".")[0] + '\\temp\\' + '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit)+'.fits'
             self.save_bgimage_fits(outputfitsfile)
         del self.sunrise_image, self.psf_image, self.rebinned_image, self.noisy_image, self.nmag_image, self.rp_image
         gc.collect()
