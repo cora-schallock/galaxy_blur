@@ -4,16 +4,17 @@ import matplotlib.pyplot as plt
 
 import galaxy_blur.synthetic_image as synthetic_image
 
-def plot_synthetic_SDSS(filename, savefile='syn_sdss_gri.png', **kwargs):
+def plot_synthetic_SDSS(filename, band_label='', dir_name='', savefile='syn_sdss_gri.png', **kwargs):
     #changed to read sdss
     print("in plot")
-    rp, img = return_synthetic_SDSS_img(filename, **kwargs)
+    rp, img = return_synthetic_SDSS_img(filename, band_label=band_label, dir_name=dir_name, **kwargs)
     
-    my_save_image(img, savefile, save_indiv_bands = None)
+    #my_save_image(img, savefile, save_indiv_bands = None) #comment out to not save ong
     del img
     gc.collect()
 
-def return_synthetic_SDSS_img(filename, 
+def return_synthetic_SDSS_img(filename,
+                band_label='', dir_name='',
                 lupton_alpha=0.5, lupton_Q=0.5, scale_min=1e-4, 
                                 b_fac=0.7, g_fac=1.0, r_fac=1.3,
                 seed_boost=1.0,
@@ -53,7 +54,8 @@ def return_synthetic_SDSS_img(filename,
         # if(this_fail_flag):
         #     fail_flag=True
 
-        r_image, rp, the_used_seed, this_fail_flag = synthetic_image.build_synthetic_SDSS_image(filename, 'i_SDSS.res', 
+        r_image, rp, the_used_seed, this_fail_flag = synthetic_image.build_synthetic_SDSS_image(filename, 'i_SDSS.res',
+                                                                                                band_label=band_label, dir_name=dir_name,
                                 seed=seed,
                 r_petro_kpc=r_petro_kpc,
                 fix_seed=True, 

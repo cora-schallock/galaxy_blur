@@ -36,7 +36,7 @@ sn_list = [8, 16, 32, 64, 128, 256] #64, 32
 pixelsize_arcsec = [5, 10, 20, 40] # 80
 psf_list = [4.0,4.7,5.6, 6.7, 8.0, 9.5, 11.3, 13.4, 16.0, 19.0, 22.6, 26.9, 32.0, 38.0, 45.2, 53.8, 64.0, 76.1, 90.5, 107.6, 128.0]
 
-def sdss_get_64_image(input_fits_path,output_path):
+def sdss_get_64_image(input_fits_path,output_path, band_label='', dir_name=''):
     for psf in psf_list:
         for sn in sn_list:
             print("in loop")
@@ -48,8 +48,8 @@ def sdss_get_64_image(input_fits_path,output_path):
             common_args['pixelsize_arcsec'] = float(psf/3.2)
             print(input_fits_path)
             output_path_full = os.path.join(output_path, 'IC1683_i_psf_'+ str(psf) + 'background_' + str(sn) +'.png')
-            galaxy_blur.plot.plot_synthetic_SDSS(input_fits_path, savefile= output_path_full, **common_args)
+            galaxy_blur.plot.plot_synthetic_SDSS(input_fits_path, savefile= output_path_full, band_label=band_label, dir_name=dir_name, **common_args)
 
-input_fits_path='C:\\Users\\school\\Desktop\\cross_id\\sdss_mosaic_construction\\table2\\IC1683\\IC1683_i.fits'
-output_path='C:\\Users\\school\\Desktop\\IC1683_i'
-sdss_get_64_image(input_fits_path,output_path)
+#input_fits_path='C:\\Users\\school\\Desktop\\cross_id\\sdss_mosaic_construction\\table2\\IC1683\\IC1683_i.fits'
+#output_path='C:\\Users\\school\\Desktop\\IC1683_i'
+#sdss_get_64_image(input_fits_path,output_path)

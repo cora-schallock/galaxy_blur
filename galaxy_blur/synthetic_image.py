@@ -90,10 +90,10 @@ def normalize_array(data,to_diff_mask):
 
 
 
-def build_synthetic_SDSS_image(filename, band, r_petro_kpc=None, **kwargs):
+def build_synthetic_SDSS_image(filename, band, band_label='', dir_name='',r_petro_kpc=None, **kwargs):
     #changed to read SDSS
     print("in build")
-    obj = SDSS_image(filename, band=band, r_petro_kpc=r_petro_kpc, **kwargs)
+    obj = SDSS_image(filename, band=band, r_petro_kpc=r_petro_kpc, band_label=band_label, dir_name=dir_name,**kwargs)
 
     image = obj.bg_image.return_image()
     rp    = obj.r_petro_kpc
@@ -111,6 +111,7 @@ class SDSS_image:
     """ main class for loading and manipulating SUNRISE data into real data format  """
     def __init__(self, 
             filename, band=0, camera=0,
+            band_label='', dir_name='',
             redshift=0.05,
             psf_fwhm_arcsec=1.0, pixelsize_arcsec=0.24,
             r_petro_kpc=None, save_fits=False,
@@ -196,9 +197,28 @@ class SDSS_image:
                 #print "filename:" + filename[35:-7]
                 # outputfitsfile = 'D:/cs179/python/output/winter/fits/'+ filename[44:-5]+'_band_'+str(self.band)+'_camera_'+str(camera)+'_redshift_'+str(float(self.cosmology.redshift))+'.fits'
                 #outputfitsfile = '/extra/wayne0/preserve/rae_peng/fits/'+ filename[35:-5]+'_psf_'+ psf_fwhm_arcsec + 'background_' + sn_limit +'.fits'
-                print(filename)
+                #print(filename)
                 #outputfitsfile = '/mnt/c/Users/school/Desktop/rae_output' + filename.split("/")[-1].split(".")[0] + psf_fwhm_arcsec + 'background_' + sn_limit +'.fits'
-                outputfitsfile = filename.split(".")[0] + '\\temp\\'+  '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit)+'.fits'
+                ##outputfitsfile = filename.split(".")[0] + '\\temp\\'+  '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit)+'.fits'
+                #base_path = "C:\\Users\\school\\Desktop\\rae_output_sdss" #os.path.exists os.makedirs
+                base_path = "E:\\grad_school\\research\\spin_parity_blurring\\sdss_output"
+                gal_file_name = filename.split("\\")[-1]
+                sub_dir_str = "psf_" + str(psf_fwhm_arcsec) + "_background_" + str(sn_limit)
+
+                top_dir = os.path.join(base_path,sub_dir_str)
+                if not os.path.exist(top_dir):
+                    os.makedirs(top_dir)
+
+                second_dir = os.path.join(base_path,sub_dir_str,dir_name)
+                if not os.path.exist(second_dir):
+                    os.makedirs(second_dir)
+
+                third_dir = os.path.join(base_path,sub_dir_str,dir_name,gal_name)
+                if not os.path.exists(third_dir):
+                    os.makedirs(third_dir)
+
+                outputfitsfile = os.path.join(base_path,sub_dir_str,dir_name,gal_name,gal_file_name)
+                #return
             else:
                 # print 'here'
                 # print filename
@@ -207,7 +227,27 @@ class SDSS_image:
                 # outputfitsfile = 'D:/cs179/python/output/winter/fits/'+ filename[44:-5]+'_band_'+str(self.band)+'_camera_'+str(camera)+'_redshift_'+str(float(self.cosmology.redshift))+'.fits'
                 #outputfitsfile = '/extra/wayne0/preserve/rae_peng/fits/'+ filename+ '/' + filename +'_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit) + 'pixelsize_' + str(pixelsize_arcsec) + '.fits'
                 #outputfitsfile = '/mnt/c/Users/school/Desktop/rae_output' + '/' + filename.split("/")[-1].split(".")[0] +'_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit) + 'pixelsize_' + str(pixelsize_arcsec) + '.fits'
-                outputfitsfile = filename.split(".")[0] + '\\temp\\' + '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit)+'.fits'
+                ##outputfitsfile = filename.split(".")[0] + '\\temp\\' + '_psf_'+ str(psf_fwhm_arcsec) + 'background_' + str(sn_limit)+'.fits'
+                #base_path = "C:\\Users\\school\\Desktop\\rae_output_sdss" #os.path.exists os.makedirs
+                base_path = "E:\\grad_school\\research\\spin_parity_blurring\\sdss_output"
+                gal_file_name = filename.split("\\")[-1]
+                gal_name = gal_file_name.split("_")[0]
+                sub_dir_str = "psf_" + str(psf_fwhm_arcsec) + "_background_" + str(sn_limit)
+
+                top_dir = os.path.join(base_path,sub_dir_str)
+                if not os.path.exists(top_dir):
+                    os.makedirs(top_dir)
+
+                second_dir = os.path.join(base_path,sub_dir_str,dir_name)
+                if not os.path.exists(second_dir):
+                    os.makedirs(second_dir)
+
+                third_dir = os.path.join(base_path,sub_dir_str,dir_name,gal_name)
+                if not os.path.exists(third_dir):
+                    os.makedirs(third_dir)
+
+                outputfitsfile = os.path.join(base_path,sub_dir_str,dir_name,gal_name,gal_file_name)
+                #return
             self.save_bgimage_fits(outputfitsfile)
         del self.sunrise_image, self.psf_image, self.rebinned_image, self.noisy_image, self.nmag_image, self.rp_image
         gc.collect()
